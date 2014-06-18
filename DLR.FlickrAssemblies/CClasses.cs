@@ -25,6 +25,13 @@ namespace DLR.Statistics
                 Views = 0;
             }
         }
+        public static CStats Clone(DateTime dt, int views)
+        {
+            CStats thisS = new CStats();
+            thisS.Date = dt.ToString("yyyyMMdd");
+            thisS.Views = views;
+            return thisS;
+        }
         public CStats(int? views)
         {
             Date = System.DateTime.Now.ToString("yyyyMMdd");
@@ -37,6 +44,25 @@ namespace DLR.Statistics
                 Views = 0;
             }
         }
+        public int Get(string dateString,int span){
+            if (dateString == null)
+            {
+                return 0;
+            }
+            DateTime dt0 = Convert.ToDateTime(CWorker.FormatDateString(dateString));
+            DateTime dt1 = Convert.ToDateTime(CWorker.FormatDateString(Date));
+            int days = (dt0 - dt1).Days;
+            //string x = _Pack(dateString);
+            if (days < span)
+            {
+                return Views;
+            }
+            return 0;
+        }
+        //static string _Pack(string dateString)
+        //{
+        //    return dateString.Substring(0, 4) + dateString.Substring(4, 2) + dateString.Substring(6, 2);
+        //}
     }
     public class CPhoto
     {
@@ -136,7 +162,7 @@ namespace DLR.Statistics
             TokenSecret = aToken.TokenSecret;
         }
         public List<string> MakeDateList()
-        {
+        {//change this to use real calandar dates from NOW date
             List<string> things = new List<string>();
             foreach (CPhoto photo in Photos)
             {
@@ -268,6 +294,7 @@ namespace DLR.Statistics
         public string First { get; set; }
         public string Week { get; set; }
         public string Month { get; set; }
+        
         public int WeekDays { get; set; }
         public int PriorDays { get; set; }
         public int MonthDays { get; set; }
@@ -279,6 +306,7 @@ namespace DLR.Statistics
         public int Total { get; set; }
         public int Week { get; set;}
         public int Today {get;set;}
+        public int Month { get; set; }
         public CData() { }
     }
     public class CMetaData
@@ -308,11 +336,13 @@ namespace DLR.Statistics
         public int Total { get; set; }
         public int Today {get;set;}
         public int Week {get;set;}
+        public int Month { get; set; }
         public CViews() { }
     }
     public class CXDB
     {
         public CViews Views { get; set; }
+        public CViews Pictures { get; set; }
         public CDate Date { get; set; }
         public List<CData> Data { get; set; }
         public List<CTotalViews> Totals { get; set; }

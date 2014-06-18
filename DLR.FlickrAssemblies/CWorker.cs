@@ -11,10 +11,216 @@ namespace DLR.Statistics
 {
     public static class CWorker
     {
+
+        public enum SampleTypeEnum { Today,Week,Month,Total}
+        public static DateTime DTSub(DateTime dt, int gap)
+        {
+            return dt.Subtract(new TimeSpan(gap, 0, 0, 0));
+        }
+        public static string DT2Str(DateTime dt)
+        {
+            return dt.ToString("yyyyMMdd");
+        }
+        public static string DT2StrReadable(DateTime dt)
+        {
+            return dt.ToString("MM-dd-yyyy");
+        }
+        public static DateTime FixDate(DateTime dt)
+        {
+            return Str2DT(DT2Str(dt));
+        }
+        public static int Month(CStats current, List<CStats> stats, List<string> dates, int gap)
+        {
+            DateTime dt = Str2DT(dates[dates.Count - 1]);
+            DateTime dtStart = dt.Subtract(new TimeSpan(gap, 0, 0, 0));
+            CStats prior = CWorker.FindFirstRecordOnOrAfter(dtStart, stats);
+            if (prior != null)
+            {
+                if (prior.Views != current.Views)
+                {
+                    return current.Views - prior.Views;
+                }
+            }
+            return 0;
+        }
+        public static DateTime Str2DT(string dateString)
+        {
+            return Convert.ToDateTime(CWorker.FormatDateString(dateString));
+        }
+        public static int Delta(DateTime top, List<CStats> stats, int gap)
+        {
+            CStats mostRecent = Find(top, stats);
+            if (mostRecent == null)
+            {
+                return 0;
+            }
+            if (stats == null)
+            {
+                return 0;
+            }
+            DateTime myTop = Str2DT(mostRecent.Date);
+            DateTime bottom = DTSub(top, gap);
+            //CStats myBottom = FindFirstRecordOnOrAfter(bottom, stats);
+            CStats myBottom = FindFirstRecordOnOrBefore(bottom, stats);
+            if (myBottom == null)
+            {
+                return 0;
+            }
+            //if (myBottom.Date == DT2Str(bottom))
+            //{
+            //    return 0;
+            //}
+            return mostRecent.Views - myBottom.Views;
+        }
+        public static int DeltaWeek(DateTime top, List<CStats> stats, int gap)
+        {
+            CStats mostRecent = Find(top, stats);
+            if (mostRecent == null)
+            {
+                return 0;
+            }
+            if (stats == null)
+            {
+                return 0;
+            }
+            DateTime myTop = Str2DT(mostRecent.Date);
+            DateTime bottom = DTSub(top, gap);
+            CStats myBottom = FindFirstRecordOnOrAfter(bottom, stats);
+            //CStats myBottom = FindFirstRecordOnOrBefore(bottom, stats);
+            if (myBottom == null)
+            {
+                return 0;
+            }
+            //if (myBottom.Date == DT2Str(bottom))
+            //{
+            //    return 0;
+            //}
+            return mostRecent.Views - myBottom.Views;
+        }
+        public static int DeltaMonth(DateTime top, List<CStats> stats, int gap)
+        {
+            CStats mostRecent = Find(top, stats);
+            if (mostRecent == null)
+            {
+                return 0;
+            }
+            if (stats == null)
+            {
+                return 0;
+            }
+            DateTime myTop = Str2DT(mostRecent.Date);
+            DateTime bottom = DTSub(top, gap);
+            CStats myBottom = FindFirstRecordOnOrAfter(bottom, stats);
+            //CStats myBottom = FindFirstRecordOnOrBefore(bottom, stats);
+            if (myBottom == null)
+            {
+                return 0;
+            }
+            //if (myBottom.Date == DT2Str(bottom))
+            //{
+            //    return 0;
+            //}
+            return mostRecent.Views - myBottom.Views;
+        }
+        public static int Week(CStats current, List<CStats> stats, List<string> dates, int gap)
+        {
+            DateTime dt = Str2DT(dates[dates.Count - 1]);
+            DateTime dtWeekStart = DTSub(dt, gap);
+            CStats prior = CWorker.FindFirstRecordOnOrAfter(dtWeekStart, stats);
+            if (prior != null)
+            {
+                if (prior.Views != current.Views)
+                {
+                    return current.Views - prior.Views;
+                }
+            }
+            return 0;
+        }
+        public static int Today(CStats current, List<CStats> stats)
+        {
+            CStats prior = CWorker.FindFirstRecordPrior(current, stats);
+            if (prior != null)
+            {
+                if (prior.Views != current.Views)
+                {
+                    return current.Views - prior.Views;
+                    //photosViewsToday += thisToday;
+                }
+            }
+            return 0;
+        }
+        public static CStats FindFirstRecordPrior(CStats current, List<CStats> records)
+        {
+            DateTime dt0 = Convert.ToDateTime(CWorker.FormatDateString(current.Date));
+            for(int ndx=records.Count-1;ndx!=-1;ndx--)
+            {
+                DateTime dt = Convert.ToDateTime(CWorker.FormatDateString(records[ndx].Date));
+                int days = (dt - dt0).Days;
+                if (days < 0)
+                {
+                    return records[ndx];
+                }
+            }
+            return null;
+        }
+        public static CStats FindFirstRecordOnOrAfter(DateTime dt0, List<CStats> records)
+        {
+            for (int ndx = 0; ndx != records.Count - 1; ndx++)
+            {
+                DateTime dt = Convert.ToDateTime(CWorker.FormatDateString(records[ndx].Date));
+                int days = (dt0 - dt).Days;
+                if (days <= 0)
+                {
+                    return records[ndx];
+                }
+            }
+            return null;
+        }
+        public static CStats FindFirstRecordOnOrBefore(DateTime dt0, List<CStats> records)
+        {
+            for (int ndx = records.Count - 1; ndx != -1; ndx--)
+            {
+                DateTime dt = Convert.ToDateTime(CWorker.FormatDateString(records[ndx].Date));
+                int days = (dt0 - dt).Days;
+                if (days >= 0)
+                {
+                    return records[ndx];
+                }
+            }
+            return null;
+        }
+        public static CStats Find(DateTime dt0, List<CStats> records)
+        {
+            string date = DT2Str(dt0);
+            foreach (CStats record in records)
+            {
+                if (date == record.Date)
+                {
+                    return record;
+                }
+            }
+            return null;
+        }
+        public static string FindFirstRecordOnOrAfter(DateTime dt0, List<string> records)
+        {
+            for (int ndx = 0; ndx != records.Count - 1; ndx++)
+            {
+                DateTime dt = Str2DT(records[ndx]);
+                int days = (dt0 - dt).Days;
+                if (days <= 0)
+                {
+                    return records[ndx];
+                }
+            }
+            return null;
+        }
+       
+       
         public static void Exit(int code, string txt)
         {
             Console.WriteLine(txt);
             Console.WriteLine("Press Any Key To Exit");
+            Console.ReadKey();
             System.Environment.Exit(code);
         }
         public static string FormatInt(int num)

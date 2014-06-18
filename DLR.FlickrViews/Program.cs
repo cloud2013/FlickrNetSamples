@@ -15,7 +15,7 @@ namespace DLR.FlickrViews
         static void Main(string[] args)
         {
             OAuthAccessToken accessToken = new OAuthAccessToken();
-            Flickr f = null;
+            FlickrNet.Flickr f = null;
             CWorker.BasePath = @"C:\TEMP\";
             CWorker.DataBaseRootName = "FLICKRDB";
             CDB db = CWorker.ReadDB();
@@ -74,6 +74,10 @@ namespace DLR.FlickrViews
                 }         
             }
             CWorker.StoreDB(db);
+            if (args.Length != 0)
+            {
+                CWorker.Exit(0, "Success");
+            }
         }
     }
 }

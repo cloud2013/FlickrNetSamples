@@ -3,40 +3,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace DLR.Flickr.Statistics.Version2
 {
-    class Program
+    public class CStatistics
     {
-        //public class CRecordTotal
-        //{
-        //    public string Date { get; set; }
-        //    public int Views { get; set; }
-        //}
-        static void Main(string[] args)
-        {
+            CDB _DB=null;
+            CXDB xDB = new CXDB();
+            public CStatistics()
+            {
+                CWorker.BasePath = @"C:\TEMP\";
+                CWorker.DataBaseRootName = "FLICKRDB";
+                _DB = CWorker.ReadDB();
+            }
+        public CStatistics(CDB db) {
+            _DB=db;
             CWorker.BasePath = @"C:\TEMP\";
             CWorker.DataBaseRootName = "FLICKRDB";
-            CDB db = CWorker.ReadDB();
-            if (db == null)
+        }
+        public CStatistics(string basePath, string dbRootname)
+        {
+            CWorker.BasePath = basePath;
+            CWorker.DataBaseRootName = dbRootname;
+            _DB=  CWorker.ReadDB();
+        }
+        public CXDB Exec(){
+             if (_DB == null)
             {
-                CWorker.Exit(1, "No Data Base");
+                return null;
             }
-            if (db.Photos == null)
+            if (_DB.Photos == null)
             {
-                CWorker.Exit(1, "No Photo data in Data Base");
+                return null;
             }
-            if (db.Photos.Count == 0)
+            if (_DB.Photos.Count == 0)
             {
-                CWorker.Exit(1, "No Photo data in Data Base");
+                return null;
             }
-            Console.WriteLine("We Are Starting.");
+            //Console.WriteLine("We Are Starting.");
             DateTime today = CWorker.FixDate( DateTime.Now);
-            CXDB xDB = new CXDB();
-            xDB.Totals = db.TotalViews();
+           
+            xDB.Totals = _DB.TotalViews();
             CDate dateRecord = new CDate();
-            dateRecord.WeekDays = 7;
+            dateRecord.WeekDays = 6;
             dateRecord.PriorDays = 1;
-            dateRecord.MonthDays = 31;
+            dateRecord.MonthDays = 30;
             string todayStr = CWorker.DT2StrReadable(CWorker.FixDate(today));
             dateRecord.Today = todayStr;
             dateRecord.Prior = todayStr + " : " + CWorker.DT2StrReadable(CWorker.FixDate((CWorker.DTSub(today, dateRecord.PriorDays))));
@@ -55,7 +66,7 @@ namespace DLR.Flickr.Statistics.Version2
             int photosWithViews_Week = 0;
             int photosWithViews_Month = 0;
 
-            foreach (CPhoto photo in db.Photos)
+            foreach (CPhoto photo in _DB.Photos)
             {
                 int thisWeek =0;
                 int thisToday = 0;
@@ -81,14 +92,14 @@ namespace DLR.Flickr.Statistics.Version2
                 }
 
 
-                thisWeek = CWorker.Delta(today, photo.Stats, dateRecord.WeekDays);
+                thisWeek = CWorker.DeltaWeek(today, photo.Stats, dateRecord.WeekDays);
                 photosViewsWeek += thisWeek;
                 if (thisWeek != 0)
                 {
                     photosWithViews_Week++;
                 }
 
-                thisMonth = CWorker.Delta(today, photo.Stats, dateRecord.MonthDays);
+                thisMonth = CWorker.DeltaMonth(today, photo.Stats, dateRecord.MonthDays);
                 photosViewsMonth += thisMonth;
                 if (thisMonth != 0)
                 {
@@ -113,11 +124,14 @@ namespace DLR.Flickr.Statistics.Version2
             xDB.Views.Today = photosViewsToday;
             xDB.Views.Week = photosViewsWeek;
             xDB.Views.Month = photosViewsMonth;
+            return xDB;
+        }
+        public void Commit(){
             CWorker.StoreXDB(xDB);
-            if (args.Length != 0)
-            {
-                CWorker.Exit(0, "Success");
-            }
+        }
+        public void Commit(CXDB xdb)
+        {
+            CWorker.StoreXDB(xdb);
         }
     }
 }
