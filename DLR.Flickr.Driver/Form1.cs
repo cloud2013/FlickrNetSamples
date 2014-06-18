@@ -16,6 +16,8 @@ namespace DLR.Flickr.Driver
 {
     public partial class Form1 : Form
     {
+
+        string _BasePath=@"C:\Temp\DLR.Flickr\FlickrNetSamples";
         public Form1()
         {
              
@@ -25,6 +27,7 @@ namespace DLR.Flickr.Driver
             this.MaximumSize = z;
             this.WindowState = FormWindowState.Maximized;
             webBrowser1.Size = z;
+            txtbxBasePath.Text = _BasePath;
            
            
         }
@@ -43,37 +46,39 @@ namespace DLR.Flickr.Driver
         }
         private void btnDaily_Click(object sender, EventArgs e)
         {
-            CWorker.BasePath = @"C:\TEMP\";
+            CWorker.BasePath = _BasePath;
             string uriString = CWorker.BasePath + "TODAY.HTML";
             webBrowser1.Navigate(uriString);
             
         }
         private void btnWeek_Click(object sender, EventArgs e)
         {
-            CWorker.BasePath = @"C:\TEMP\";
+            CWorker.BasePath = _BasePath;
             string uriString = CWorker.BasePath + "Week.HTML";
             webBrowser1.Navigate(uriString);
         }
         private void btnMonth_Click(object sender, EventArgs e)
         {
-            CWorker.BasePath = @"C:\TEMP\";
+            CWorker.BasePath = _BasePath;
             string uriString = CWorker.BasePath + "Month.HTML";
             webBrowser1.Navigate(uriString);
         }
         private void btnTotal_Click(object sender, EventArgs e)
         {
-            CWorker.BasePath = @"C:\TEMP\";
+            CWorker.BasePath = _BasePath;
             string uriString = CWorker.BasePath + "Total.HTML";
             webBrowser1.Navigate(uriString);
         }
         private void btnDailyTotal_Click(object sender, EventArgs e)
         {
-            CWorker.BasePath = @"C:\TEMP\";
+            CWorker.BasePath = _BasePath;
             string uriString = CWorker.BasePath + "DailyTotals.HTML";
             webBrowser1.Navigate(uriString);
         }
         private void btnCombo_Click(object sender, EventArgs e)
         {
+            txtbxStatus.Text = "Calculate Statistics and Create HTML";
+            txtbxStatus.Refresh();
             CStatistics xStatistics = new CStatistics();
             CXDB xDB = xStatistics.Exec();
             xStatistics.Commit();
@@ -84,14 +89,21 @@ namespace DLR.Flickr.Driver
         }
         private void btn_Click(object sender, EventArgs e)
         {
-            
+            txtbxStatus.Text = "Read Flickr Data";
+            txtbxStatus.Refresh();
             webBrowser1.Refresh();
             CReadFlickr reader = new CReadFlickr();
             CDB cDB = reader.Exec();
+            txtbxStatus.Text += System.Environment.NewLine + "Update DB Store";
+            txtbxStatus.Refresh();
             reader.Commit();
+            txtbxStatus.Text += System.Environment.NewLine + "Calculate Statistics";
+            txtbxStatus.Refresh();
             CStatistics xStatistics = new CStatistics(cDB);
             CXDB xDB = xStatistics.Exec();
             CHTML html = new CHTML(xDB, 25);
+            txtbxStatus.Text += System.Environment.NewLine + "Create HTML";
+            txtbxStatus.Refresh();
             html.Exec();
             //MessageBox.Show("Ready.", "Read Flickr plus Statistics plus HTML", MessageBoxButtons.OK);
             btnDaily.PerformClick();
@@ -99,6 +111,8 @@ namespace DLR.Flickr.Driver
 
         private void btnReadFlickr_Click(object sender, EventArgs e)
         {
+            txtbxStatus.Text = "Read Flickr Data";
+            txtbxStatus.Refresh();
             btnClearBrowser.PerformClick();
             CReadFlickr reader = new CReadFlickr();
             CDB cDB = reader.Exec();
@@ -111,6 +125,23 @@ namespace DLR.Flickr.Driver
         {
             string uriString = @"http://images6.fanpop.com/image/photos/33100000/Rainbow-Dash-my-little-pony-friendship-is-magic-rainbow-dash-33121844-640-585.png";
             webBrowser1.Navigate(uriString);
+        }
+
+        private void txtbxBasePath_ModifiedChanged(object sender, EventArgs e)
+        {
+            //MessageBox.Show("You are in the TextBoxBase.ModifiedChanged event.");
+        }
+
+        private void txtbxBasePath_TextChanged(object sender, EventArgs e)
+        {
+            //MessageBox.Show("You are in the TextBoxBase.TextChanged event.");
+        }
+
+        private void btnChangeBasePath_Click(object sender, EventArgs e)
+        {
+            _BasePath = txtbxBasePath.Text;
+            MessageBox.Show("Base Path Changed: " + _BasePath);
+
         }
     }
 }

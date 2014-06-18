@@ -40,6 +40,10 @@
             this.btnCombo = new System.Windows.Forms.Button();
             this.btnReadFlickr = new System.Windows.Forms.Button();
             this.btnClearBrowser = new System.Windows.Forms.Button();
+            this.txtbxBasePath = new System.Windows.Forms.TextBox();
+            this.lblBasePath = new System.Windows.Forms.Label();
+            this.btnChangeBasePath = new System.Windows.Forms.Button();
+            this.txtbxStatus = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnStatistics
@@ -161,11 +165,51 @@
             this.btnClearBrowser.UseVisualStyleBackColor = true;
             this.btnClearBrowser.Click += new System.EventHandler(this.btnClearBrowser_Click);
             // 
+            // txtbxBasePath
+            // 
+            this.txtbxBasePath.Location = new System.Drawing.Point(841, 75);
+            this.txtbxBasePath.Name = "txtbxBasePath";
+            this.txtbxBasePath.Size = new System.Drawing.Size(309, 20);
+            this.txtbxBasePath.TabIndex = 12;
+            this.txtbxBasePath.ModifiedChanged += new System.EventHandler(this.txtbxBasePath_ModifiedChanged);
+            this.txtbxBasePath.TextChanged += new System.EventHandler(this.txtbxBasePath_TextChanged);
+            // 
+            // lblBasePath
+            // 
+            this.lblBasePath.AutoSize = true;
+            this.lblBasePath.Location = new System.Drawing.Point(841, 56);
+            this.lblBasePath.Name = "lblBasePath";
+            this.lblBasePath.Size = new System.Drawing.Size(52, 13);
+            this.lblBasePath.TabIndex = 13;
+            this.lblBasePath.Text = "Basepath";
+            // 
+            // btnChangeBasePath
+            // 
+            this.btnChangeBasePath.Location = new System.Drawing.Point(841, 102);
+            this.btnChangeBasePath.Name = "btnChangeBasePath";
+            this.btnChangeBasePath.Size = new System.Drawing.Size(167, 23);
+            this.btnChangeBasePath.TabIndex = 14;
+            this.btnChangeBasePath.Text = "Change Base Path";
+            this.btnChangeBasePath.UseVisualStyleBackColor = true;
+            this.btnChangeBasePath.Click += new System.EventHandler(this.btnChangeBasePath_Click);
+            // 
+            // txtbxStatus
+            // 
+            this.txtbxStatus.Location = new System.Drawing.Point(844, 145);
+            this.txtbxStatus.Multiline = true;
+            this.txtbxStatus.Name = "txtbxStatus";
+            this.txtbxStatus.Size = new System.Drawing.Size(306, 424);
+            this.txtbxStatus.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1162, 768);
+            this.Controls.Add(this.txtbxStatus);
+            this.Controls.Add(this.btnChangeBasePath);
+            this.Controls.Add(this.lblBasePath);
+            this.Controls.Add(this.txtbxBasePath);
             this.Controls.Add(this.btnClearBrowser);
             this.Controls.Add(this.btnReadFlickr);
             this.Controls.Add(this.btnCombo);
@@ -181,6 +225,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -198,6 +243,10 @@
         private System.Windows.Forms.Button btnCombo;
         private System.Windows.Forms.Button btnReadFlickr;
         private System.Windows.Forms.Button btnClearBrowser;
+        private System.Windows.Forms.TextBox txtbxBasePath;
+        private System.Windows.Forms.Label lblBasePath;
+        private System.Windows.Forms.Button btnChangeBasePath;
+        private System.Windows.Forms.TextBox txtbxStatus;
     }
 }
 
