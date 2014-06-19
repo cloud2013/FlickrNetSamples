@@ -73,7 +73,7 @@ namespace DLR.Flickr.Statistics.Version2
                     photosWithViews_Total++;
                 }
 
-                thisToday = CWorker.Delta(today, photo.Stats, dateRecord.PriorDays);
+                thisToday = CWorker.DeltaDaily(today, photo.Stats, dateRecord.PriorDays);
                 photosViewsToday += thisToday;
                 if (thisToday != 0)
                 {
@@ -81,14 +81,14 @@ namespace DLR.Flickr.Statistics.Version2
                 }
 
 
-                thisWeek = CWorker.Delta(today, photo.Stats, dateRecord.WeekDays);
+                thisWeek = CWorker.DeltaDaily(today, photo.Stats, dateRecord.WeekDays);
                 photosViewsWeek += thisWeek;
                 if (thisWeek != 0)
                 {
                     photosWithViews_Week++;
                 }
 
-                thisMonth = CWorker.Delta(today, photo.Stats, dateRecord.MonthDays);
+                thisMonth = CWorker.DeltaDaily(today, photo.Stats, dateRecord.MonthDays);
                 photosViewsMonth += thisMonth;
                 if (thisMonth != 0)
                 {

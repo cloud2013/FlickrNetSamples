@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnStatistics = new System.Windows.Forms.Button();
-            this.btnHTML = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.btn = new System.Windows.Forms.Button();
             this.btnDaily = new System.Windows.Forms.Button();
@@ -45,26 +43,6 @@
             this.btnChangeBasePath = new System.Windows.Forms.Button();
             this.txtbxStatus = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // btnStatistics
-            // 
-            this.btnStatistics.Location = new System.Drawing.Point(1014, 12);
-            this.btnStatistics.Name = "btnStatistics";
-            this.btnStatistics.Size = new System.Drawing.Size(65, 23);
-            this.btnStatistics.TabIndex = 0;
-            this.btnStatistics.Text = "Statistics";
-            this.btnStatistics.UseVisualStyleBackColor = true;
-            this.btnStatistics.Click += new System.EventHandler(this.btnStatistics_Click);
-            // 
-            // btnHTML
-            // 
-            this.btnHTML.Location = new System.Drawing.Point(1085, 12);
-            this.btnHTML.Name = "btnHTML";
-            this.btnHTML.Size = new System.Drawing.Size(65, 23);
-            this.btnHTML.TabIndex = 1;
-            this.btnHTML.Text = "HTML";
-            this.btnHTML.UseVisualStyleBackColor = true;
-            this.btnHTML.Click += new System.EventHandler(this.btnHTML_Click);
             // 
             // webBrowser1
             // 
@@ -157,7 +135,7 @@
             // 
             // btnClearBrowser
             // 
-            this.btnClearBrowser.Location = new System.Drawing.Point(933, 12);
+            this.btnClearBrowser.Location = new System.Drawing.Point(1075, 12);
             this.btnClearBrowser.Name = "btnClearBrowser";
             this.btnClearBrowser.Size = new System.Drawing.Size(75, 23);
             this.btnClearBrowser.TabIndex = 11;
@@ -220,8 +198,6 @@
             this.Controls.Add(this.btnDaily);
             this.Controls.Add(this.btn);
             this.Controls.Add(this.webBrowser1);
-            this.Controls.Add(this.btnHTML);
-            this.Controls.Add(this.btnStatistics);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -231,8 +207,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnStatistics;
-        private System.Windows.Forms.Button btnHTML;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Button btn;
         private System.Windows.Forms.Button btnDaily;

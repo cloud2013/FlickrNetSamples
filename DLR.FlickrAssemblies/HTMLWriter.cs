@@ -16,13 +16,13 @@ namespace DLR.FlickrHTMLWriter
         public CHTML(CXDB xDB, int displayLimit)
         {
             _XDB = xDB;
-            CWorker.BasePath = @"C:\TEMP\";
+            //CWorker.BasePath = @"C:\TEMP\";
             _DisplayLimit = displayLimit;
         }
         public CHTML(int displayLimit) {
             _DisplayLimit = displayLimit;
-            CWorker.BasePath = @"C:\TEMP\";
-            CWorker.DataBaseRootName = "FLICKRDB";
+            //CWorker.BasePath = @"C:\TEMP\";
+            //CWorker.DataBaseRootName = "FLICKRDB";
             _XtractBaseName = "XTRACT";
             _XDB = CWorker.ReadXDB(_XtractBaseName);
         }

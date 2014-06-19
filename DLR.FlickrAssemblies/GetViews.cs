@@ -17,8 +17,8 @@ namespace DLR.FlickrViews
          OAuthAccessToken AccessToken = new OAuthAccessToken();
             public CReadFlickr()
             {
-                CWorker.BasePath = @"C:\TEMP\";
-                CWorker.DataBaseRootName = "FLICKRDB";
+                //CWorker.BasePath = @"C:\TEMP\";
+                //CWorker.DataBaseRootName = "FLICKRDB";
                 _DB = CWorker.ReadDB();
             }
             public CReadFlickr(string basePath, string rootName)

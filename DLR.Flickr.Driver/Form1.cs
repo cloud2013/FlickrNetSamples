@@ -17,7 +17,9 @@ namespace DLR.Flickr.Driver
     public partial class Form1 : Form
     {
 
-        string _BasePath=@"C:\Temp\DLR.Flickr\FlickrNetSamples";
+        string _BasePath=@"C:\Temp\DLR.Flickr\FlickrNetSamples\";
+        string _BaseName = "FLICKRDB";
+       
         public Form1()
         {
              
@@ -28,6 +30,8 @@ namespace DLR.Flickr.Driver
             this.WindowState = FormWindowState.Maximized;
             webBrowser1.Size = z;
             txtbxBasePath.Text = _BasePath;
+            CWorker.DataBaseRootName = _BaseName;
+            CWorker.BasePath = _BasePath;
            
            
         }
@@ -81,7 +85,7 @@ namespace DLR.Flickr.Driver
             txtbxStatus.Refresh();
             CStatistics xStatistics = new CStatistics();
             CXDB xDB = xStatistics.Exec();
-            xStatistics.Commit();
+            //xStatistics.Commit();
             CHTML html = new CHTML(xDB,25);
             html.Exec();
             //MessageBox.Show("Ready.","Statistics plus HTML",MessageBoxButtons.OK);

@@ -12,14 +12,14 @@ namespace DLR.Flickr.Statistics.Version2
             CXDB xDB = new CXDB();
             public CStatistics()
             {
-                CWorker.BasePath = @"C:\TEMP\";
-                CWorker.DataBaseRootName = "FLICKRDB";
+                //CWorker.BasePath = @"C:\TEMP\";
+                //CWorker.DataBaseRootName = "FLICKRDB";
                 _DB = CWorker.ReadDB();
             }
         public CStatistics(CDB db) {
             _DB=db;
-            CWorker.BasePath = @"C:\TEMP\";
-            CWorker.DataBaseRootName = "FLICKRDB";
+            //CWorker.BasePath = @"C:\TEMP\";
+            //CWorker.DataBaseRootName = "FLICKRDB";
         }
         public CStatistics(string basePath, string dbRootname)
         {
@@ -72,7 +72,10 @@ namespace DLR.Flickr.Statistics.Version2
                 int thisToday = 0;
                 int thisMonth = 0;
                 int thisPhotoCount=photo.Stats.Count;
-
+                if (photo.ID == "14029304088")
+                {
+                    int this2 = photo.Stats.Count;
+                }
                 if (photo.Stats.Count == 0)
                 {
                     continue;
@@ -84,7 +87,7 @@ namespace DLR.Flickr.Statistics.Version2
                     photosWithViews_Total++;
                 }
 
-                thisToday = CWorker.Delta(today, photo.Stats, dateRecord.PriorDays);
+                thisToday = CWorker.DeltaDaily(today, photo.Stats, dateRecord.PriorDays);
                 photosViewsToday += thisToday;
                 if (thisToday != 0)
                 {

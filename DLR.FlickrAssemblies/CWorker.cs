@@ -47,30 +47,35 @@ namespace DLR.Statistics
         {
             return Convert.ToDateTime(CWorker.FormatDateString(dateString));
         }
-        public static int Delta(DateTime top, List<CStats> stats, int gap)
+        public static int DeltaDaily(DateTime top, List<CStats> stats, int gap)
         {
-            CStats mostRecent = Find(top, stats);
-            if (mostRecent == null)
+            if (stats.Count < 2)
             {
                 return 0;
             }
-            if (stats == null)
-            {
-                return 0;
-            }
-            DateTime myTop = Str2DT(mostRecent.Date);
-            DateTime bottom = DTSub(top, gap);
-            //CStats myBottom = FindFirstRecordOnOrAfter(bottom, stats);
-            CStats myBottom = FindFirstRecordOnOrBefore(bottom, stats);
-            if (myBottom == null)
-            {
-                return 0;
-            }
-            //if (myBottom.Date == DT2Str(bottom))
+            return stats[stats.Count - 1].Views - stats[stats.Count - 2].Views;
+            //CStats mostRecent = Find(top, stats);
+            //if (mostRecent == null)
             //{
             //    return 0;
             //}
-            return mostRecent.Views - myBottom.Views;
+            //if (stats == null)
+            //{
+            //    return 0;
+            //}
+            //DateTime myTop = Str2DT(mostRecent.Date);
+            //DateTime bottom = DTSub(top, gap);
+            ////CStats myBottom = FindFirstRecordOnOrAfter(bottom, stats);
+            //CStats myBottom = FindFirstRecordOnOrBefore(bottom, stats);
+            //if (myBottom == null)
+            //{
+            //    return 0;
+            //}
+            ////if (myBottom.Date == DT2Str(bottom))
+            ////{
+            ////    return 0;
+            ////}
+            //return mostRecent.Views - myBottom.Views;
         }
         public static int DeltaWeek(DateTime top, List<CStats> stats, int gap)
         {
@@ -293,7 +298,9 @@ namespace DLR.Statistics
         }
         static CDB _Read(string title)
         {
-            if (File.Exists(_FQ(title)))
+
+            string fqName = _FQ(title);
+            if (File.Exists(fqName))
             {
                 System.Xml.Serialization.XmlSerializer reader =
                     new System.Xml.Serialization.XmlSerializer(typeof(CDB));
@@ -345,6 +352,7 @@ namespace DLR.Statistics
         }
         static void _Store(string title, CDB db)
         {
+            string fqTitle = _FQ(title);
             _Delete(title);
             System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(CDB));
             System.IO.StreamWriter file = new System.IO.StreamWriter(_FQ(title));
