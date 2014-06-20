@@ -17,8 +17,10 @@ namespace DLR.Flickr.Driver
     public partial class Form1 : Form
     {
 
-        string _BasePath=@"C:\Temp\DLR.Flickr\FlickrNetSamples\";
+        //string _BasePath=@"C:\Users\dredfield\Documents\GitHub\FlickrNetSamples\";
+        string _BasePath = System.IO.Directory.GetCurrentDirectory()+@"\";
         string _BaseName = "FLICKRDB";
+        
        
         public Form1()
         {
@@ -93,6 +95,7 @@ namespace DLR.Flickr.Driver
         }
         private void btn_Click(object sender, EventArgs e)
         {
+            CWorker.BasePath = _BasePath;
             txtbxStatus.Text = "Read Flickr Data";
             txtbxStatus.Refresh();
             webBrowser1.Refresh();
