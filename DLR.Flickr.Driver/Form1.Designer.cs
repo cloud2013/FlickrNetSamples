@@ -42,6 +42,8 @@
             this.lblBasePath = new System.Windows.Forms.Label();
             this.btnChangeBasePath = new System.Windows.Forms.Button();
             this.txtbxStatus = new System.Windows.Forms.TextBox();
+            this.btnDBMan = new System.Windows.Forms.Button();
+            this.btnMaxCount = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -50,7 +52,7 @@
             this.webBrowser1.MaximumSize = new System.Drawing.Size(800, 900);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(800, 677);
+            this.webBrowser1.Size = new System.Drawing.Size(800, 650);
             this.webBrowser1.TabIndex = 2;
             // 
             // btn
@@ -59,7 +61,7 @@
             this.btn.Name = "btn";
             this.btn.Size = new System.Drawing.Size(80, 23);
             this.btn.TabIndex = 3;
-            this.btn.Text = "Do All";
+            this.btn.Text = "Refresh ALL";
             this.btn.UseVisualStyleBackColor = true;
             this.btn.Click += new System.EventHandler(this.btn_Click);
             // 
@@ -135,7 +137,7 @@
             // 
             // btnClearBrowser
             // 
-            this.btnClearBrowser.Location = new System.Drawing.Point(1075, 12);
+            this.btnClearBrowser.Location = new System.Drawing.Point(878, 221);
             this.btnClearBrowser.Name = "btnClearBrowser";
             this.btnClearBrowser.Size = new System.Drawing.Size(75, 23);
             this.btnClearBrowser.TabIndex = 11;
@@ -145,9 +147,9 @@
             // 
             // txtbxBasePath
             // 
-            this.txtbxBasePath.Location = new System.Drawing.Point(841, 75);
+            this.txtbxBasePath.Location = new System.Drawing.Point(878, 15);
             this.txtbxBasePath.Name = "txtbxBasePath";
-            this.txtbxBasePath.Size = new System.Drawing.Size(309, 20);
+            this.txtbxBasePath.Size = new System.Drawing.Size(170, 20);
             this.txtbxBasePath.TabIndex = 12;
             this.txtbxBasePath.ModifiedChanged += new System.EventHandler(this.txtbxBasePath_ModifiedChanged);
             this.txtbxBasePath.TextChanged += new System.EventHandler(this.txtbxBasePath_TextChanged);
@@ -155,7 +157,7 @@
             // lblBasePath
             // 
             this.lblBasePath.AutoSize = true;
-            this.lblBasePath.Location = new System.Drawing.Point(841, 56);
+            this.lblBasePath.Location = new System.Drawing.Point(820, 22);
             this.lblBasePath.Name = "lblBasePath";
             this.lblBasePath.Size = new System.Drawing.Size(52, 13);
             this.lblBasePath.TabIndex = 13;
@@ -163,27 +165,50 @@
             // 
             // btnChangeBasePath
             // 
-            this.btnChangeBasePath.Location = new System.Drawing.Point(841, 102);
+            this.btnChangeBasePath.Location = new System.Drawing.Point(1054, 13);
             this.btnChangeBasePath.Name = "btnChangeBasePath";
-            this.btnChangeBasePath.Size = new System.Drawing.Size(167, 23);
+            this.btnChangeBasePath.Size = new System.Drawing.Size(96, 23);
             this.btnChangeBasePath.TabIndex = 14;
-            this.btnChangeBasePath.Text = "Change Base Path";
+            this.btnChangeBasePath.Text = "Change DB Path";
             this.btnChangeBasePath.UseVisualStyleBackColor = true;
             this.btnChangeBasePath.Click += new System.EventHandler(this.btnChangeBasePath_Click);
             // 
             // txtbxStatus
             // 
-            this.txtbxStatus.Location = new System.Drawing.Point(844, 145);
+            this.txtbxStatus.Location = new System.Drawing.Point(878, 42);
             this.txtbxStatus.Multiline = true;
             this.txtbxStatus.Name = "txtbxStatus";
-            this.txtbxStatus.Size = new System.Drawing.Size(306, 424);
+            this.txtbxStatus.Size = new System.Drawing.Size(272, 153);
             this.txtbxStatus.TabIndex = 15;
+            // 
+            // btnDBMan
+            // 
+            this.btnDBMan.Location = new System.Drawing.Point(878, 201);
+            this.btnDBMan.Name = "btnDBMan";
+            this.btnDBMan.Size = new System.Drawing.Size(75, 23);
+            this.btnDBMan.TabIndex = 16;
+            this.btnDBMan.Text = "DB Main";
+            this.btnDBMan.UseVisualStyleBackColor = true;
+            this.btnDBMan.Click += new System.EventHandler(this.btnDBMan_Click);
+            // 
+            // btnMaxCount
+            // 
+            this.btnMaxCount.Location = new System.Drawing.Point(1054, 701);
+            this.btnMaxCount.Name = "btnMaxCount";
+            this.btnMaxCount.Size = new System.Drawing.Size(75, 23);
+            this.btnMaxCount.TabIndex = 17;
+            this.btnMaxCount.Text = "Show Max";
+            this.btnMaxCount.UseVisualStyleBackColor = true;
+            this.btnMaxCount.Visible = false;
+            this.btnMaxCount.Click += new System.EventHandler(this.btnMaxCount_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1162, 768);
+            this.Controls.Add(this.btnMaxCount);
+            this.Controls.Add(this.btnDBMan);
             this.Controls.Add(this.txtbxStatus);
             this.Controls.Add(this.btnChangeBasePath);
             this.Controls.Add(this.lblBasePath);
@@ -221,6 +246,8 @@
         private System.Windows.Forms.Label lblBasePath;
         private System.Windows.Forms.Button btnChangeBasePath;
         private System.Windows.Forms.TextBox txtbxStatus;
+        private System.Windows.Forms.Button btnDBMan;
+        private System.Windows.Forms.Button btnMaxCount;
     }
 }
 

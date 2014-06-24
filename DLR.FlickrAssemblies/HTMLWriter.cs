@@ -16,13 +16,10 @@ namespace DLR.FlickrHTMLWriter
         public CHTML(CXDB xDB, int displayLimit)
         {
             _XDB = xDB;
-            //CWorker.BasePath = @"C:\TEMP\";
             _DisplayLimit = displayLimit;
         }
         public CHTML(int displayLimit) {
             _DisplayLimit = displayLimit;
-            //CWorker.BasePath = @"C:\TEMP\";
-            //CWorker.DataBaseRootName = "FLICKRDB";
             _XtractBaseName = "XTRACT";
             _XDB = CWorker.ReadXDB(_XtractBaseName);
         }
@@ -58,13 +55,14 @@ namespace DLR.FlickrHTMLWriter
             #region TOTALS
             fqFile = CWorker.BasePath + "DailyTotals.HTML";
             System.IO.File.WriteAllText(fqFile, _MakeDailyTotals(_XDB));
+
             #endregion
         }
         static string _MakeDailyTotals(CXDB xDB)
         {
             StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine("<html>");
-            sb.AppendLine(_CSS());
+            sb.AppendLine(_CSS2());
             sb.AppendLine("<body>");
             sb.AppendLine(string.Format("<p><h2>Total Views</h2></p>"));
             sb.AppendLine(_DailyTotalsTable(xDB));
@@ -76,14 +74,12 @@ namespace DLR.FlickrHTMLWriter
         {
             StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine(string.Format("<h3><p>Sample Days: {0}</p></h3>",xDB.Totals.Count -1));
-            sb.AppendLine("<table>");
+            sb.AppendLine("<table class='dailyTotalsTable'>");
             int prior = -1;
-            //(from x in xDB.Totals orderby x.Date descending select x).ToList()
             List<string> strings = new List<string>();
             foreach (CTotalViews record in xDB.Totals)
             {
                 strings.Add(_MakeRowViewTotals(record, prior));
-                //sb.AppendLine(_MakeRowViewTotals(record, prior));
                 prior = record.Views;
             }
             
@@ -98,55 +94,84 @@ namespace DLR.FlickrHTMLWriter
 
         static string _MakeRowViewTotals(CTotalViews record, int prior)
         {
-            if (prior != -1)
+            if ((record.Views - prior) < 0)
             {
-                return string.Format("<tr><td>{0}</td><td>{1:#,#}</td><td>{2:#,#}</td></tr>", CWorker.FormatDateString(record.Date), record.Views, record.Views - prior);
+                string x = "y";
             }
-            return string.Format("<tr><td>{0}</td><td>{1:#,#}</td><td></td></tr>", CWorker.FormatDateString(record.Date), record.Views);
+
+            string views = CWorker.FormatInt(record.Views);
+            string delta = CWorker.FormatInt(record.Views - prior);
+
+            if (prior <= -1)
+            {
+                delta = "_";
+            }
+           
+            return string.Format("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", CWorker.FormatDateString(record.Date), views, delta);
+            
         }
-        static string _MakeRow(CData record, int unitCount)
+        //static string _MakeRow(CData record, int unitCount)
+        //{
+        //    string href = string.Format(FMTHREF, record.MetaData.ID);
+        //    string src = string.Format(FMTSRC, record.MetaData.ThumbURL);
+        //    string y = string.Empty;
+
+        //    if (unitCount == 0)
+        //    {
+        //        y = string.Format("<tr><td><img {2}/></td><td><a {3} target='_blank'>{4}</a></td><td>{0:#,#}</td><td>{1}</td></tr>", record.Total, unitCount, src, href, record.MetaData.Title);
+        //    }
+        //    else
+        //    {
+        //        y = string.Format("<tr><td><img {2}/></td><td><a {3} target='_blank'>{4}</a></td><td>{0:#,#}</td><td>{1:#,#}</td></tr>", record.Total, unitCount, src, href, record.MetaData.Title);
+        //    }
+        //    return y;
+        //}
+
+        static string _MakeSuperRow(CData record)
         {
             string href = string.Format(FMTHREF, record.MetaData.ID);
             string src = string.Format(FMTSRC, record.MetaData.ThumbURL);
+            string todayString =CWorker.SuperFormatInt(record.Today);
+            string totalString = CWorker.SuperFormatInt(record.Total);
+            string weekString = CWorker.SuperFormatInt(record.Week);
+            string monthString = CWorker.SuperFormatInt(record.Month);
+            
             string y = string.Empty;
-            if (unitCount == 0)
-            {
-                y = string.Format("<tr><td><img {2}/></td><td><a {3} target='_blank'>{4}</a></td><td>{0:#,#}</td><td></td></tr>", record.Total, unitCount, src, href, record.MetaData.Title);
-            }
-            else
-            {
-                y = string.Format("<tr><td><img {2}/></td><td><a {3} target='_blank'>{4}</a></td><td>{0:#,#}</td><td>{1:#,#}</td></tr>", record.Total, unitCount, src, href, record.MetaData.Title);
-            }
+            y = string.Format("<tr><td><img {4}/></td><td><a {5} target='_blank'>{6}</a></td><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>",
+                totalString, monthString, weekString, todayString, src, href, record.MetaData.Title);
             return y;
         }
         static string _Sample(CXDB xDB, CWorker.SampleTypeEnum sType, int limit)
         {
             StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine("<html>");
-            sb.AppendLine(_CSS());
+            sb.AppendLine(_CSS2());
             sb.AppendLine("<body>");
             string viewsString = string.Empty;
+            var sortedList=new List<CData>();
             switch (sType)
             {
                 case CWorker.SampleTypeEnum.Month:
                     sb.Append(_HeadLine(xDB.Date.Month, xDB.Pictures.Month, xDB.Views.Month, limit));
-                    sb.AppendLine(_Table((from x in xDB.Data orderby x.Month descending select x).ToList(), sType, limit));
+                    sortedList = (from x in xDB.Data orderby x.Total descending orderby x.Month descending select x).ToList();
                     break;
                 case CWorker.SampleTypeEnum.Week:
                     sb.Append(_HeadLine(xDB.Date.Week, xDB.Pictures.Week, xDB.Views.Week, limit));
-                    sb.AppendLine(_Table((from x in xDB.Data orderby x.Week descending select x).ToList(), sType, limit));
+                    sortedList = (from x in xDB.Data orderby x.Total descending  orderby x.Week descending  select x).ToList();
                     break;
                 case CWorker.SampleTypeEnum.Today:
                     sb.Append(_HeadLine(xDB.Date.Today, xDB.Pictures.Today, xDB.Views.Today, limit));
-                     sb.AppendLine(_Table((from x in xDB.Data orderby x.Today descending select x).ToList(), sType, limit));
+                    sortedList = (from x in xDB.Data orderby x.Total descending orderby x.Today  descending select x).ToList();
+                   
                     break;
                 case CWorker.SampleTypeEnum.Total:
                     sb.Append(_HeadLineTotal(xDB, limit));
-                    sb.AppendLine(_Table((from x in xDB.Data orderby x.Total descending select x).ToList(), sType, limit));
+                    sortedList = (from x in xDB.Data orderby x.Total descending select x).ToList();
                     break;
                 default:
                     throw new ApplicationException("Program Error");
             }
+            sb.AppendLine(_Table(sortedList, limit));
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             return sb.ToString();
@@ -167,13 +192,14 @@ namespace DLR.FlickrHTMLWriter
 
         static string _PicturePhrase(int pictures, int views)
         {
-            const string fmtPictureAndViews = "<h3><p>Pictures: {0:#,#} Views: {1:#,#}</p></h3>";
-            return string.Format(fmtPictureAndViews, pictures, views);
+            const string fmtPictureAndViews = "<h3><p>Pictures: {0} Views: {1}</p></h3>";
+            return string.Format(fmtPictureAndViews,CWorker.FormatInt(pictures),CWorker.FormatInt( views));
         }
-        static string _Table(List<CData> data, CWorker.SampleTypeEnum sType, int limit)
+        static string _Table(List<CData> data, int limit)
         {
             StringBuilder sb = new System.Text.StringBuilder();
-            sb.AppendLine("<table>");
+            sb.AppendLine("<table class='viewTable'>");
+            sb.AppendLine("<tr><th>Thumbnail</th><th>Link</th><th>Total</th><th>Month</th><th>Week</th><th>Day</th></tr>");
             int hits = 0;
             foreach (CData record in data)
             {
@@ -184,41 +210,31 @@ namespace DLR.FlickrHTMLWriter
                 hits++;
                 if (hits < limit)
                 {
-                    switch (sType)
-                    {
-                        case CWorker.SampleTypeEnum.Today:
-                            sb.AppendLine(_MakeRow(record, record.Today));
-                            break;
-                        case CWorker.SampleTypeEnum.Total:
-                            sb.AppendLine(_MakeRow(record, 0));
-                            break;
-                        case CWorker.SampleTypeEnum.Week:
-                            sb.AppendLine(_MakeRow(record, record.Week));
-                            break;
-                        case CWorker.SampleTypeEnum.Month:
-                            sb.AppendLine(_MakeRow(record, record.Month));
-                            break;
-                        default:
-                            throw new ApplicationException("BANG");
-                    }
-
+                    sb.AppendLine(_MakeSuperRow(record));
                 }
             }
             sb.AppendLine("</table>");
             return sb.ToString();
         }
-        public static string _CSS()
+     
+        public static string _CSS2()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("<head>");
-            sb.AppendLine("<style>");
-            sb.AppendLine("h2 { color: blue;  text-align: left; font-size: 18pt;}");
-            sb.AppendLine("h3 { color: black;  text-align: left; font-size: 14pt;}");
-            sb.AppendLine("table,td,th {border: 1px solid black;}");
-            sb.AppendLine("td {padding:15px;text-align:right;}");
+            sb.AppendLine("<style type='text/css'>");
+            sb.AppendLine(".viewTable border: 1px solid black;}");
+            sb.AppendLine(".viewTable  td,th {border: 1px solid black;}}");
+            sb.AppendLine(".viewTable  td {padding:15px;text-align:right;}");
+            sb.AppendLine(".dailyTotalsTable border: 1px solid black;}");
+            sb.AppendLine(".dailyTotalsTable  td,th {border: 1px solid black;}}");
+            sb.AppendLine(".dailyTotalsTable  td {padding:15px;text-align:right;}");
+            sb.AppendLine(".dailyTotalsTable  td {padding:15px;text-align:right;}");
             sb.AppendLine("</style>");
             sb.AppendLine("</head>");
             return sb.ToString();
         }
     }
 }
+
+//viewTable
+//dailyTotalsTable

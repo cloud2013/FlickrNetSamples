@@ -25,6 +25,12 @@ namespace DLR.Statistics
                 Views = 0;
             }
         }
+        public CStats(DateTime dt, int views)
+        {
+            Date = dt.ToString("yyyyMMdd");
+                Views = Convert.ToInt32(views);
+        }
+       
         public static CStats Clone(DateTime dt, int views)
         {
             CStats thisS = new CStats();
@@ -32,6 +38,14 @@ namespace DLR.Statistics
             thisS.Views = views;
             return thisS;
         }
+        public static CStats Clone(CStats stats)
+        {
+            CStats thisS = new CStats();
+            thisS.Date = stats.Date;
+            thisS.Views = stats.Views;
+            return thisS;
+        }
+       
         public CStats(int? views)
         {
             Date = System.DateTime.Now.ToString("yyyyMMdd");
@@ -44,6 +58,7 @@ namespace DLR.Statistics
                 Views = 0;
             }
         }
+        
         public int Get(string dateString,int span){
             if (dateString == null)
             {
@@ -341,6 +356,7 @@ namespace DLR.Statistics
     }
     public class CXDB
     {
+        public int MaxCount { get; set; }
         public CViews Views { get; set; }
         public CViews Pictures { get; set; }
         public CDate Date { get; set; }

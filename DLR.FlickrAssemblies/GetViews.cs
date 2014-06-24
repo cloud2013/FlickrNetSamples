@@ -17,8 +17,6 @@ namespace DLR.FlickrViews
          OAuthAccessToken AccessToken = new OAuthAccessToken();
             public CReadFlickr()
             {
-                //CWorker.BasePath = @"C:\TEMP\";
-                //CWorker.DataBaseRootName = "FLICKRDB";
                 _DB = CWorker.ReadDB();
             }
             public CReadFlickr(string basePath, string rootName)
@@ -29,8 +27,6 @@ namespace DLR.FlickrViews
             }
         public CDB Exec()
         {
-
-           
             if (_DB.GetOAuthToken == null)
             {
                 AccessToken.FullName = "Cloud2013";
@@ -60,27 +56,41 @@ namespace DLR.FlickrViews
                 }
                 foreach (FlickrNet.Photo p in photo)
                 {
+
+                    if (p.Views == null)
+                    {
+                        p.Views = 0;
+                    }
                     if (CWorker.NewEntry(p.PhotoId, _DB))
                     {
                         _DB.Photos.Add(new CPhoto(p.PhotoId, p.Title, p.ThumbnailUrl, p.LargeUrl, p.Views));
                     }
                     else
                     {
+                       
                         CPhoto thisPhoto = CWorker.GetPhotoRecord(p.PhotoId, _DB);
                         CStats record = CWorker.GetStatsRecord(thisPhoto, System.DateTime.Now);
                         if (record == null)
                         {
-                            thisPhoto.Stats.Add(new CStats(p.Views));
+                            if (p.Views != 0)//add only if non-zero
+                            {
+                                thisPhoto.Stats.Add(new CStats(p.Views));
+                            }
+
                         }
                         else
                         {
-                            if (p.Views == null)
+                            string dt=CWorker.DT2Str(System.DateTime.Now);
+                            for (int xdx = 0; ndx != thisPhoto.Stats.Count; xdx++)
                             {
-                                p.Views = 0;
-                            }
-                            if (record.Views != Convert.ToInt32(p.Views))
-                            {
-                                record.Views = Convert.ToInt32(p.Views);
+                                if (thisPhoto.Stats[xdx].Date == dt )
+                                {
+                                    if (thisPhoto.Stats[xdx].Views != record.Views)
+                                    {
+                                        thisPhoto.Stats[xdx].Views = record.Views;
+                                    }
+                                    break;
+                                }
                             }
                         }
                     }

@@ -17,14 +17,14 @@ namespace DLR.Flickr.Driver
     public partial class Form1 : Form
     {
 
-        //string _BasePath=@"C:\Users\dredfield\Documents\GitHub\FlickrNetSamples\";
-        string _BasePath = System.IO.Directory.GetCurrentDirectory()+@"\";
+        string _BasePath=@"C:\temp\";
+        //string _BasePath = System.IO.Directory.GetCurrentDirectory()+@"\";
         string _BaseName = "FLICKRDB";
         
        
         public Form1()
         {
-             
+            
             InitializeComponent();
             var z = Screen.PrimaryScreen.Bounds.Size;
             this.MinimumSize = z;
@@ -34,8 +34,6 @@ namespace DLR.Flickr.Driver
             txtbxBasePath.Text = _BasePath;
             CWorker.DataBaseRootName = _BaseName;
             CWorker.BasePath = _BasePath;
-           
-           
         }
         private void btnStatistics_Click(object sender, EventArgs e)
         {
@@ -87,6 +85,7 @@ namespace DLR.Flickr.Driver
             txtbxStatus.Refresh();
             CStatistics xStatistics = new CStatistics();
             CXDB xDB = xStatistics.Exec();
+            txtbxStatus.Text += System.Environment.NewLine + "Max Statistics Collected per Photo: " + xDB.MaxCount;
             //xStatistics.Commit();
             CHTML html = new CHTML(xDB,25);
             html.Exec();
@@ -95,10 +94,11 @@ namespace DLR.Flickr.Driver
         }
         private void btn_Click(object sender, EventArgs e)
         {
+            btnClearBrowser.PerformClick();
             CWorker.BasePath = _BasePath;
             txtbxStatus.Text = "Read Flickr Data";
             txtbxStatus.Refresh();
-            webBrowser1.Refresh();
+           
             CReadFlickr reader = new CReadFlickr();
             CDB cDB = reader.Exec();
             txtbxStatus.Text += System.Environment.NewLine + "Update DB Store";
@@ -108,6 +108,7 @@ namespace DLR.Flickr.Driver
             txtbxStatus.Refresh();
             CStatistics xStatistics = new CStatistics(cDB);
             CXDB xDB = xStatistics.Exec();
+            txtbxStatus.Text += System.Environment.NewLine + "Max Statistics Collected per Photo: " + xDB.MaxCount;
             CHTML html = new CHTML(xDB, 25);
             txtbxStatus.Text += System.Environment.NewLine + "Create HTML";
             txtbxStatus.Refresh();
@@ -132,6 +133,8 @@ namespace DLR.Flickr.Driver
         {
             string uriString = @"http://images6.fanpop.com/image/photos/33100000/Rainbow-Dash-my-little-pony-friendship-is-magic-rainbow-dash-33121844-640-585.png";
             webBrowser1.Navigate(uriString);
+            webBrowser1.Refresh();
+       
         }
 
         private void txtbxBasePath_ModifiedChanged(object sender, EventArgs e)
@@ -149,6 +152,21 @@ namespace DLR.Flickr.Driver
             _BasePath = txtbxBasePath.Text;
             MessageBox.Show("Base Path Changed: " + _BasePath);
 
+        }
+
+        private void btnDBMan_Click(object sender, EventArgs e)
+        {
+            CDBMan dbMan = new CDBMan();
+            if (dbMan.KillDates("20140624"))
+            //if (dbMan.TrimDataBase(32,5))
+            {
+                dbMan.Commit();
+            }
+        }
+
+        private void btnMaxCount_Click(object sender, EventArgs e)
+        {
+            //
         }
     }
 }
