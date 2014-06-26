@@ -47,6 +47,9 @@ namespace DLR.FlickrViews
                 _F = FlickrManager.GetAuthInstance(_DB.APIKey, _DB.SharedSecret);
             }
             int ndx = 0;
+            int update = 0;
+            int insert = 0;
+            int dup = 0;
             while (true)
             {
                 PhotoCollection photo = _F.PeopleGetPhotos(PhotoSearchExtras.Views, ndx++, 500);
@@ -54,6 +57,8 @@ namespace DLR.FlickrViews
                 {
                     break;
                 }
+
+               
                 foreach (FlickrNet.Photo p in photo)
                 {
 
@@ -75,6 +80,7 @@ namespace DLR.FlickrViews
                             if (p.Views != 0)//add only if non-zero
                             {
                                 thisPhoto.Stats.Add(new CStats(p.Views));
+                                insert++;
                             }
 
                         }
@@ -88,6 +94,11 @@ namespace DLR.FlickrViews
                                     if (thisPhoto.Stats[xdx].Views != record.Views)
                                     {
                                         thisPhoto.Stats[xdx].Views = record.Views;
+                                        update++;
+                                    }
+                                    else
+                                    {
+                                        dup++;
                                     }
                                     break;
                                 }
@@ -96,6 +107,7 @@ namespace DLR.FlickrViews
                     }
                 }
             }
+           
             return _DB;
         }
         public void Commit()

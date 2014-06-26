@@ -188,6 +188,32 @@ namespace DLR.Statistics
              }
             return things;
         }
+        //public List<CTotalViews> TotalViews()
+        //{
+        //    List<CTotalViews> output = new List<CTotalViews>();
+        //    foreach (string date in MakeDateList())
+        //    {
+        //        output.Add(new CTotalViews(date));
+        //    }
+        //    foreach (CPhoto photo in Photos)
+        //    {
+        //        foreach (CTotalViews record in output)
+        //        {
+        //            CStats stat = _LookupStatRecord(photo, record.Date);
+        //            if (stat != null)
+        //            {
+        //                ////debug test
+        //                //if (stat.Date != record.Date)
+        //                //{
+        //                //    throw new ApplicationException("Bang");
+        //                //}
+        //                record.Views += stat.Views;
+        //            }
+        //        }
+        //    }
+        //    return output;
+        //}
+
         public List<CTotalViews> TotalViews()
         {
             List<CTotalViews> output = new List<CTotalViews>();
@@ -202,11 +228,6 @@ namespace DLR.Statistics
                     CStats stat = _LookupStatRecord(photo, record.Date);
                     if (stat != null)
                     {
-                        ////debug test
-                        //if (stat.Date != record.Date)
-                        //{
-                        //    throw new ApplicationException("Bang");
-                        //}
                         record.Views += stat.Views;
                     }
                 }
@@ -246,12 +267,15 @@ namespace DLR.Statistics
     {
         public string Date { get; set; }
         public int Views { get; set; }
+        public int Total { get; set; }
         public CTotalViews(string date)
         {
             Date = date;
             Views = 0;
         }
-        public CTotalViews() { }
+        public CTotalViews() {
+            Total = 0;
+        }
     }
     public class CSummaryStats
     {

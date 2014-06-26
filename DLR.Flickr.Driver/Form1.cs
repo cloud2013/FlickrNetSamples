@@ -157,7 +157,8 @@ namespace DLR.Flickr.Driver
         private void btnDBMan_Click(object sender, EventArgs e)
         {
             CDBMan dbMan = new CDBMan();
-            if (dbMan.KillDates("20140624"))
+
+            if (dbMan.TrimDataBase(32,5))
             //if (dbMan.TrimDataBase(32,5))
             {
                 dbMan.Commit();

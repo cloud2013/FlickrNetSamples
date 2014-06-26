@@ -21,25 +21,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_54AA138EA91BF004A6EF9D51252B2FC9"
-        "OwnerKey" = "8:_EB13503F45A027A967658FCBEF6C6D7D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_54AA138EA91BF004A6EF9D51252B2FC9"
+        "MsmKey" = "8:_74B94C6605C56141F2BA4C21EF7E0BD3"
         "OwnerKey" = "8:_23F3638AE2A64AB39FAC49923C8CAD1B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_74887137FD9E46819E1EB829C79A8C3D"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_D2ECF11362C1DBDD9B1514DAAB9CBD89"
+        "OwnerKey" = "8:_74B94C6605C56141F2BA4C21EF7E0BD3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_EB13503F45A027A967658FCBEF6C6D7D"
+        "MsmKey" = "8:_D2ECF11362C1DBDD9B1514DAAB9CBD89"
         "OwnerKey" = "8:_23F3638AE2A64AB39FAC49923C8CAD1B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -52,13 +46,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EB13503F45A027A967658FCBEF6C6D7D"
+        "OwnerKey" = "8:_74B94C6605C56141F2BA4C21EF7E0BD3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_54AA138EA91BF004A6EF9D51252B2FC9"
+        "OwnerKey" = "8:_D2ECF11362C1DBDD9B1514DAAB9CBD89"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -148,7 +142,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:v4.5 "
+                "FrameworkVersion" = "8:v4.5  "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=395269"
                 }
@@ -156,20 +150,15 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_54AA138EA91BF004A6EF9D51252B2FC9"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_74B94C6605C56141F2BA4C21EF7E0BD3"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:FlickrNet, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DLR.FlickrAssemblies, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_54AA138EA91BF004A6EF9D51252B2FC9"
-                    {
-                    "Name" = "8:FlickrNet.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
-            "SourcePath" = "8:FlickrNet.dll"
+            "SourcePath" = "8:DLR.FlickrAssemblies.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_113CCED314E94EF6BF5005543496394E"
@@ -187,40 +176,15 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_74887137FD9E46819E1EB829C79A8C3D"
-            {
-            "SourcePath" = "8:..\\FLICKRDB.xml"
-            "TargetName" = "8:FLICKRDB.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_113CCED314E94EF6BF5005543496394E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EB13503F45A027A967658FCBEF6C6D7D"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D2ECF11362C1DBDD9B1514DAAB9CBD89"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DLR.FlickrAssemblies, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:FlickrNet, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_EB13503F45A027A967658FCBEF6C6D7D"
-                    {
-                    "Name" = "8:DLR.FlickrAssemblies.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
-            "SourcePath" = "8:DLR.FlickrAssemblies.dll"
+            "SourcePath" = "8:FlickrNet.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_113CCED314E94EF6BF5005543496394E"

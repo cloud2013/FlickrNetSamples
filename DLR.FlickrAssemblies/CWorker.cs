@@ -49,32 +49,41 @@ namespace DLR.Statistics
         }
         public static int DeltaDaily(DateTime top, List<CStats> stats, int gap)
         {
-            if (stats.Count < 2)
+            if (stats.Count < (gap + 1))
             {
                 return 0;
             }
             CStats now=stats[stats.Count - 1];
-            if (Str2DT(now.Date) != top){
-                return 0;
-            }
-            CStats prior = null;
-            DateTime priorDate;
-            int offset =stats.Count - ( gap + 1);
-            if ( offset>-1)
-            {
-                prior = stats[offset];
-                priorDate = Str2DT(prior.Date);
-            }else{
-                return 0;
-            }
-            int thisGap=-(priorDate - top).Days;
-            if (thisGap > gap){
-                return 0;
-            }
+            CStats prior = stats[stats.Count - (gap + 1)];
             int views= now.Views -  prior.Views;
             return views;
-
-           
+        }
+        public static int Delta2(DateTime top, List<CStats> stats, int gap)
+        {
+            if (stats.Count < (gap + 1))
+            {
+                return 0;
+            }
+            //stats is an array of delta values
+            int offsetStop = stats.Count - 1;
+            int offsetStart = stats.Count - (gap + 1);
+            int views = 0;
+            for (int ndx = offsetStart; ndx <= offsetStop; ndx++)
+            {
+                views += stats[ndx].Views;
+            }
+            return views;
+        }
+        public static int Delta(DateTime top, List<CStats> stats, int gap)
+        {
+            if (stats.Count < (gap + 1))
+            {
+                return 0;
+            }
+            CStats now = stats[stats.Count - 1];
+            CStats prior = stats[stats.Count - (gap + 1)];
+            int views = now.Views - prior.Views;
+            return views;
         }
         public static int DeltaWeek(DateTime top, List<CStats> stats, int gap)
         {
@@ -481,27 +490,72 @@ namespace DLR.Statistics
         }
         public   bool TrimDataBase(int month, int capLimit)
         {
+            bool anyChange = false;
+            List<CStats> replacement = new List<CStats>();
             int max = month + capLimit;
             DateTime dtLimit = System.DateTime.Now.AddDays(-max);
-            bool anyChange = false;
+            anyChange = false;
             for (int ndx = 0; ndx != db.Photos.Count; ndx++)
             {
-                CPhoto photo = db.Photos[ndx];
-                if (photo.Stats.Count > max)
+                replacement = _Trim(db.Photos[ndx], max, dtLimit);
+                if (replacement != null)
                 {
-                    List<CStats> replacement = new List<CStats>();
-                    foreach (CStats stat in photo.Stats)
-                    {
-                        if (CWorker.Str2DT(stat.Date) > dtLimit)
-                        {
-                            anyChange = true;
-                            replacement.Add(CStats.Clone(stat));
-                        }
-                    }
-                    photo.Stats = replacement;
+                    anyChange = true;
+                    db.Photos[ndx].Stats = replacement;
                 }
             }
+            //slim it
+            replacement = new List<CStats>();
+            for (int ndx = 0; ndx != db.Photos.Count; ndx++)
+            {
+                replacement = _Slim(db.Photos[ndx]);
+                if (replacement != null)
+                {
+                    anyChange = true;
+                    db.Photos[ndx].Stats = replacement;
+                }
+            }
+
+
+
             return anyChange;
+        }
+        List<CStats> _Slim(CPhoto photo)
+        {
+            List<CStats> replacement = new List<CStats>();
+            int prior = 0;
+                foreach (CStats stat in photo.Stats)
+                {
+                    if (stat.Views!=prior)
+                    {
+                        replacement.Add(CStats.Clone(stat));
+                    }
+                    prior = stat.Views;
+                }
+                if (replacement.Count != 0 & (replacement.Count != photo.Stats.Count))
+            {
+                return replacement;
+            }
+            return null;
+        }
+        List<CStats> _Trim(CPhoto photo, int max, DateTime dtLimit)
+        {
+            List<CStats> replacement = new List<CStats>();
+            if (photo.Stats.Count > max)
+            {
+                foreach (CStats stat in photo.Stats)
+                {
+                    if (CWorker.Str2DT(stat.Date) > dtLimit)
+                    {
+                        replacement.Add(CStats.Clone(stat));
+                    }
+                }
+            }
+            if (replacement.Count!=0 & ( replacement.Count != photo.Stats.Count))
+            {
+                return replacement;
+            }
+            return null;
         }
         public void Commit()
         {

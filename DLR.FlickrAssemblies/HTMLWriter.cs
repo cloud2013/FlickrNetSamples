@@ -75,12 +75,10 @@ namespace DLR.FlickrHTMLWriter
             StringBuilder sb = new System.Text.StringBuilder();
             sb.AppendLine(string.Format("<h3><p>Sample Days: {0}</p></h3>",xDB.Totals.Count -1));
             sb.AppendLine("<table class='dailyTotalsTable'>");
-            int prior = -1;
             List<string> strings = new List<string>();
             foreach (CTotalViews record in xDB.Totals)
             {
-                strings.Add(_MakeRowViewTotals(record, prior));
-                prior = record.Views;
+                strings.Add(_MakeRowViewTotals(record, null));
             }
             
             for(int ndx=strings.Count-1;ndx!=-1;ndx--)
@@ -88,45 +86,30 @@ namespace DLR.FlickrHTMLWriter
                 sb.AppendLine(strings[ndx]);
             }
             sb.AppendLine("</table>");
-            
             return sb.ToString();
         }
 
-        static string _MakeRowViewTotals(CTotalViews record, int prior)
+        static string _MakeRowViewTotals(CTotalViews record, CTotalViews prior)
         {
-            if ((record.Views - prior) < 0)
-            {
-                string x = "y";
-            }
+             string views;
+             string total;
 
-            string views = CWorker.FormatInt(record.Views);
-            string delta = CWorker.FormatInt(record.Views - prior);
-
-            if (prior <= -1)
-            {
-                delta = "_";
-            }
+             views = CWorker.FormatInt(record.Views);
+             total = CWorker.FormatInt(record.Total);
+             if (record.Views < 1)
+             {
+                 views = "_";
+             }
+             if (record.Total < 1)
+             {
+                 total = "_";
+             }
            
-            return string.Format("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", CWorker.FormatDateString(record.Date), views, delta);
+                      
+            return string.Format("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", CWorker.FormatDateString(record.Date),total, views);
             
         }
-        //static string _MakeRow(CData record, int unitCount)
-        //{
-        //    string href = string.Format(FMTHREF, record.MetaData.ID);
-        //    string src = string.Format(FMTSRC, record.MetaData.ThumbURL);
-        //    string y = string.Empty;
-
-        //    if (unitCount == 0)
-        //    {
-        //        y = string.Format("<tr><td><img {2}/></td><td><a {3} target='_blank'>{4}</a></td><td>{0:#,#}</td><td>{1}</td></tr>", record.Total, unitCount, src, href, record.MetaData.Title);
-        //    }
-        //    else
-        //    {
-        //        y = string.Format("<tr><td><img {2}/></td><td><a {3} target='_blank'>{4}</a></td><td>{0:#,#}</td><td>{1:#,#}</td></tr>", record.Total, unitCount, src, href, record.MetaData.Title);
-        //    }
-        //    return y;
-        //}
-
+      
         static string _MakeSuperRow(CData record)
         {
             string href = string.Format(FMTHREF, record.MetaData.ID);
