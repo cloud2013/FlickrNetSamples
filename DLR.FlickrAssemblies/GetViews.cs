@@ -35,6 +35,7 @@ namespace DLR.FlickrViews
                 AccessToken.TokenSecret = "02947f478d4b0cc1";
                 FlickrManager.OAuthToken = AccessToken;
                 _F = FlickrManager.GetAuthInstance("2c67273e05ae10a7001e5b569df4f7d1", "d8906735118cab71");
+              
                 _DB.SetUser(AccessToken.FullName, AccessToken.UserId);
                 _DB.APIKey = "2c67273e05ae10a7001e5b569df4f7d1";
                 _DB.SharedSecret = "d8906735118cab71";
