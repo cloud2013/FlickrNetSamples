@@ -212,6 +212,8 @@ namespace DLR.FlickrHTMLWriter
             sb.AppendLine(".dailyTotalsTable  td,th {border: 1px solid black;}}");
             sb.AppendLine(".dailyTotalsTable  td {padding:15px;text-align:right;}");
             sb.AppendLine(".dailyTotalsTable  td {padding:15px;text-align:right;}");
+            //sb.AppendLine("img {max-width:50}");
+            sb.AppendLine("img {width:100}");
             sb.AppendLine("</style>");
             sb.AppendLine("</head>");
             return sb.ToString();

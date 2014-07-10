@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLR.Flickr.Driver", "DLR.Fl
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DLR.Flickr", "DLR.Flickr\DLR.Flickr.vdproj", "{CD020478-F83B-47C5-B1BC-6F63133D46F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForms", "..\..\Flickrnetsample2\WinForms\WinForms.csproj", "{32570689-7E77-4ABA-8F93-4DE74C5EBE22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catchup", "Catchup\Catchup.csproj", "{A25E41D2-C180-4B23-8E26-1ECB2914C22C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,26 @@ Global
 		{CD020478-F83B-47C5-B1BC-6F63133D46F5}.Release|Any CPU.ActiveCfg = Release
 		{CD020478-F83B-47C5-B1BC-6F63133D46F5}.Release|Mixed Platforms.ActiveCfg = Release
 		{CD020478-F83B-47C5-B1BC-6F63133D46F5}.Release|x86.ActiveCfg = Release
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Debug|x86.ActiveCfg = Debug|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Debug|x86.Build.0 = Debug|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Release|Any CPU.ActiveCfg = Release|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Release|Mixed Platforms.Build.0 = Release|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Release|x86.ActiveCfg = Release|x86
+		{32570689-7E77-4ABA-8F93-4DE74C5EBE22}.Release|x86.Build.0 = Release|x86
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A25E41D2-C180-4B23-8E26-1ECB2914C22C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
